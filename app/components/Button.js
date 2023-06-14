@@ -2,11 +2,19 @@ import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-const Button = ({ title, width, icon }) => {
+const Button = ({ title, width, icon, toNavigate }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity activeOpacity={1} style={[styles.btn, { width: width }]}>
+    <TouchableOpacity
+      onPress={() => {
+        if (toNavigate == "BACK") {
+          navigation.goBack();
+        }
+      }}
+      activeOpacity={1}
+      style={[styles.btn, { width: width }]}
+    >
       <Image source={icon} style={styles.image} />
       <Text style={styles.btnText}>{title}</Text>
     </TouchableOpacity>

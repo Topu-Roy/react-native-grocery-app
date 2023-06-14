@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, SafeAreaView, StatusBar, View } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  View,
+  Keyboard,
+} from "react-native";
 import TabIcons from "../components/TabIcons";
 
 import Home from "../screens/tabs/Home";
@@ -21,10 +27,32 @@ import searchFilled from "../images/search-filled.png";
 import loveFilled from "../images/love-filled.png";
 import notificationFilled from "../images/notification-filled.png";
 import profileFilled from "../images/profile-filled.png";
+import { useEffect } from "react";
 
 const HomeScreen = () => {
   // ? For Navigation
   const [selectedTab, setSelectedTab] = useState(TABS.HOME);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setIsKeyboardVisible(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setIsKeyboardVisible(false);
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,35 +69,39 @@ const HomeScreen = () => {
       ) : (
         <Profile />
       )}
-      <View style={styles.bottom}>
-        <TabIcons
-          image={selectedTab == TABS.HOME ? homeFilled : home}
-          tabName={TABS.HOME}
-          setSelectedTab={setSelectedTab}
-        />
-        <TabIcons
-          image={selectedTab == TABS.SEARCH ? searchFilled : search}
-          tabName={TABS.SEARCH}
-          setSelectedTab={setSelectedTab}
-        />
-        <TabIcons
-          image={selectedTab == TABS.FAVORITE ? loveFilled : love}
-          tabName={TABS.FAVORITE}
-          setSelectedTab={setSelectedTab}
-        />
-        <TabIcons
-          image={
-            selectedTab == TABS.NOTIFICATION ? notificationFilled : notification
-          }
-          tabName={TABS.NOTIFICATION}
-          setSelectedTab={setSelectedTab}
-        />
-        <TabIcons
-          image={selectedTab == TABS.PROFILE ? profileFilled : profile}
-          tabName={TABS.PROFILE}
-          setSelectedTab={setSelectedTab}
-        />
-      </View>
+      {!isKeyboardVisible && (
+        <View style={styles.bottom}>
+          <TabIcons
+            image={selectedTab == TABS.HOME ? homeFilled : home}
+            tabName={TABS.HOME}
+            setSelectedTab={setSelectedTab}
+          />
+          <TabIcons
+            image={selectedTab == TABS.SEARCH ? searchFilled : search}
+            tabName={TABS.SEARCH}
+            setSelectedTab={setSelectedTab}
+          />
+          <TabIcons
+            image={selectedTab == TABS.FAVORITE ? loveFilled : love}
+            tabName={TABS.FAVORITE}
+            setSelectedTab={setSelectedTab}
+          />
+          <TabIcons
+            image={
+              selectedTab == TABS.NOTIFICATION
+                ? notificationFilled
+                : notification
+            }
+            tabName={TABS.NOTIFICATION}
+            setSelectedTab={setSelectedTab}
+          />
+          <TabIcons
+            image={selectedTab == TABS.PROFILE ? profileFilled : profile}
+            tabName={TABS.PROFILE}
+            setSelectedTab={setSelectedTab}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

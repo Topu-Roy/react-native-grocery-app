@@ -46,7 +46,12 @@ const ProductDetails = ({ item }) => {
             {route.params.data.description}
           </Text>
           <View style={styles.btnContainer}>
-            <Button title={"Back"} icon={back} width={"30%"} />
+            <Button
+              title={"Back"}
+              toNavigate={"BACK"}
+              icon={back}
+              width={"30%"}
+            />
             <Button title={"Add To Cart"} icon={shop} width={"65%"} />
           </View>
         </View>

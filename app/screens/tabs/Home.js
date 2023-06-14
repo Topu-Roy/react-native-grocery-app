@@ -13,17 +13,25 @@ import menu from "../../images/menu.png";
 import shop from "../../images/shop.png";
 import Header from "../../components/Header";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../redux/slices/ProductSlice";
 
 const Home = () => {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
 
+  //! Redux Toolkit
+  const dispatch = useDispatch();
+
   //! Fake Store Api
 
   const getProducts = () => {
-    const products = fetch("https://fakestoreapi.com/products")
+    fetch("https://fakestoreapi.com/products")
       .then((res) => res.json())
-      .then((json) => setProducts(json));
+      .then((json) => {
+        setProducts(json);
+        dispatch(addProduct(json));
+      });
   };
 
   // ! UseEffects
