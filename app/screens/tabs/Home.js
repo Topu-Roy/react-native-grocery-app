@@ -4,6 +4,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -34,22 +35,28 @@ const Home = () => {
   // ! FlatList Rendering Items
 
   const renderItem = ({ item }) => (
-    <View style={styles.productItem}>
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={() => navigation.navigate("ProductDetails", { data: item })}
+      style={styles.productItem}
+    >
       <Image source={{ uri: item.image }} style={styles.productImage} />
-      <View style={styles.productDetailsWrapper}>
-        <Text style={styles.productTitle}>
-          {item.title.length > 30
-            ? item.title.substring(0, 30) + "..."
-            : item.title}
-        </Text>
-        <Text>
-          {item.description.length > 50
-            ? item.description.substring(0, 50) + "..."
-            : item.description}
-        </Text>
+      <View style={styles.productOuterContainer}>
+        <View style={styles.productDetailsWrapper}>
+          <Text style={styles.productTitle}>
+            {item.title.length > 30
+              ? item.title.substring(0, 30) + "..."
+              : item.title}
+          </Text>
+          <Text>
+            {item.description.length > 50
+              ? item.description.substring(0, 60) + "..."
+              : item.description}
+          </Text>
+        </View>
         <Text style={styles.productPrice}>${item.price}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -79,9 +86,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width - 20,
     height: 120,
     paddingTop: 10,
-    marginBottom: 10,
     backgroundColor: "#ffffff",
-    margin: 10,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
     borderRadius: 10,
   },
   productImage: {
@@ -93,9 +101,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginLeft: 5,
   },
-  productDetailsWrapper: {
-    paddingLeft: 10,
+  productOuterContainer: {
     flex: 1,
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    paddingLeft: 10,
+    paddingBottom: 5,
+  },
+  productDetailsWrapper: {
+    flex: 1,
+    gap: 5,
     flexDirection: "column",
   },
   productTitle: {
@@ -106,6 +121,5 @@ const styles = StyleSheet.create({
     color: "#20a200",
     fontWeight: "bold",
     fontSize: 15,
-    marginTop: 20,
   },
 });
