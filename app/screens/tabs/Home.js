@@ -1,20 +1,15 @@
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import React, { useEffect, useState } from "react";
+import { View } from "react-native";
 
-import menu from "../../images/menu.png";
-import shop from "../../images/shop.png";
-import Header from "../../components/Header";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/slices/ProductSlice";
+
+import ProductList from "../../components/ProductList";
+import Header from "../../components/Header";
+
+import menu from "../../images/menu.png";
+import shop from "../../images/shop.png";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -40,33 +35,6 @@ const Home = () => {
     getProducts();
   }, []);
 
-  // ! FlatList Rendering Items
-
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      activeOpacity={1}
-      onPress={() => navigation.navigate("ProductDetails", { data: item })}
-      style={styles.productItem}
-    >
-      <Image source={{ uri: item.image }} style={styles.productImage} />
-      <View style={styles.productOuterContainer}>
-        <View style={styles.productDetailsWrapper}>
-          <Text style={styles.productTitle}>
-            {item.title.length > 30
-              ? item.title.substring(0, 30) + "..."
-              : item.title}
-          </Text>
-          <Text>
-            {item.description.length > 50
-              ? item.description.substring(0, 60) + "..."
-              : item.description}
-          </Text>
-        </View>
-        <Text style={styles.productPrice}>${item.price}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
   return (
     <View>
       <Header
@@ -76,58 +44,9 @@ const Home = () => {
         title={"Grocery App"}
       />
 
-      <FlatList
-        data={products}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
+      <ProductList data={products} />
     </View>
   );
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  productItem: {
-    justifyContent: "center",
-    flexDirection: "row",
-    width: Dimensions.get("window").width - 20,
-    height: 120,
-    paddingTop: 10,
-    backgroundColor: "#ffffff",
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: 10,
-  },
-  productImage: {
-    height: 100,
-    width: 100,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 5,
-    borderRadius: 10,
-    marginLeft: 5,
-  },
-  productOuterContainer: {
-    flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    paddingLeft: 10,
-    paddingBottom: 5,
-  },
-  productDetailsWrapper: {
-    flex: 1,
-    gap: 5,
-    flexDirection: "column",
-  },
-  productTitle: {
-    fontSize: 15,
-    fontWeight: "500",
-  },
-  productPrice: {
-    color: "#20a200",
-    fontWeight: "bold",
-    fontSize: 15,
-  },
-});
