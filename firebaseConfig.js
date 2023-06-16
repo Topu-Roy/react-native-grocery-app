@@ -7,6 +7,7 @@ import {
   PROJECT_ID,
   STORAGE_BUCKET,
   MESSAGING_SENDER_ID,
+  APP_ID,
 } from "@env";
 
 const firebaseConfig = {
@@ -20,7 +21,7 @@ const firebaseConfig = {
 
   messagingSenderId: MESSAGING_SENDER_ID,
 
-  appId: "1:654762437818:web:3f1bdec3512c08a53ca683",
+  appId: APP_ID,
 };
 
 export const FIREBASE_APP = initializeApp(firebaseConfig);
