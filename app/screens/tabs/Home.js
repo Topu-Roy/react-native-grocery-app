@@ -9,7 +9,6 @@ import ProductList from "../../components/ProductList";
 import Header from "../../components/Header";
 
 import menu from "../../images/menu.png";
-import shop from "../../images/shop.png";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -39,7 +38,6 @@ const Home = () => {
     <View>
       <Header
         leftIcon={menu}
-        RightIcon={shop}
         onClickLeftIcon={() => navigation.openDrawer()}
         title={"Grocery App"}
       />

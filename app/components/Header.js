@@ -7,14 +7,17 @@ import {
   View,
 } from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
+import shop from "../images/shop.png";
 
 const Header = ({
   title,
   leftIcon,
-  RightIcon,
   onClickLeftIcon,
   onClickRightIconClick,
 }) => {
+  const products = useSelector((state) => state.cart);
+
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.btn} onPress={onClickLeftIcon}>
@@ -22,7 +25,10 @@ const Header = ({
       </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>
       <TouchableOpacity style={styles.btn}>
-        <Image source={RightIcon} style={styles.icon} />
+        <Image source={shop} style={styles.icon} />
+        <View style={styles.itemCounter}>
+          <Text style={styles.itemCounterText}>{products.data.length}</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -56,5 +62,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     color: "white",
+  },
+  itemCounter: {
+    position: "absolute",
+    height: 20,
+    width: 20,
+    top: 0,
+    right: "-20%",
+    padding: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 999,
+  },
+  itemCounterText: {
+    fontSize: 10,
   },
 });

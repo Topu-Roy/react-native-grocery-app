@@ -1,11 +1,4 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Header from "../../components/Header";
@@ -15,10 +8,14 @@ import shop from "../../images/shop.png";
 import favorite from "../../images/love.png";
 import favoriteFilled from "../../images/love-filled.png";
 import Button from "../../components/Button";
+import { useDispatch } from "react-redux";
+
+import { addToFavorites } from "../../redux/slices/FavoritesSlice";
 
 const ProductDetails = ({ item }) => {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -38,7 +35,12 @@ const ProductDetails = ({ item }) => {
 
           <View style={styles.middleWrapper}>
             <Text style={styles.price}>Price: ${route.params.data.price}</Text>
-            <TouchableOpacity activeOpacity={1}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => {
+                dispatch(addToFavorites(route.params.data));
+              }}
+            >
               <Image source={favorite} style={styles.favoriteIcon} />
             </TouchableOpacity>
           </View>
@@ -50,9 +52,9 @@ const ProductDetails = ({ item }) => {
               title={"Back"}
               toNavigate={"BACK"}
               icon={back}
-              width={"30%"}
+              width={"47%"}
             />
-            <Button title={"Add To Cart"} icon={shop} width={"65%"} />
+            <Button title={"Add To Cart"} icon={shop} width={"47%"} />
           </View>
         </View>
       </View>
