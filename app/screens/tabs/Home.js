@@ -39,7 +39,7 @@ const Home = () => {
       <Header
         leftIcon={menu}
         onClickLeftIcon={() => navigation.openDrawer()}
-        title={"Grocery App"}
+        title={"E-Commerce App"}
       />
 
       <ProductList data={products} />
